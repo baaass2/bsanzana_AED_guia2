@@ -13,8 +13,9 @@ class Contenedor{
     public:
         Contenedor();
 
-		void buscarPila_conEspacio(Pilas *pilas, int M, string dato);
+		int* buscarPila_conEspacio(Pilas *pilas, int M);
 		void imprimir(Pilas *pilas, int M, int N);
-		
+		void buscarContenedor(Pilas *pilas, int M, int N,string dato);
+		void moverContenedores(Pilas *pilas, int M, int N, string dato, int indiceM, int indiceN);
 };		
 #endif

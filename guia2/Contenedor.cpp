@@ -13,9 +13,10 @@ Contenedor::Contenedor(){
 	int stop= 0;
 	int opc = 0;
 	string dato= "";
+	int *arrayAux = new int[2];
 	
-    cout << "¿Cantidad de pilas ?: ";cin >> M;
-    cout << "¿Tamaño de las pilas ?: ";cin >> N;
+    cout << "¿Cantidad de columna con contenedores ?: ";cin >> M;
+    cout << "¿Cantidad de de filas con contenedores  ?: ";cin >> N;
     
     Pilas *pilas = new Pilas[M];
     
@@ -37,55 +38,121 @@ Contenedor::Contenedor(){
 			stop=1;
 		}
 		else if(opc ==1){
-			cout << "Ingrese nombre de contenedor de la forma numero-letra: ";cin >> dato;
-			buscarPila_conEspacio(pilas, M, dato);
+			cout << "Ingrese nombre del contenedor de la forma numero-letra: ";cin >> dato;
+			arrayAux=buscarPila_conEspacio(pilas, M);
+			if(arrayAux[1] == 1){
+				pilas[arrayAux[0]].push(dato);
+			}
+				
+			imprimir(pilas, M, N);
 		}
 		else if(opc == 2){
+			cout << "Ingrese nombre de contenedor de la forma numero-letra: ";cin >> dato;
+			buscarContenedor(pilas, M, N, dato);
+			imprimir(pilas, M, N);
 		}
 		else if(opc == 3){
 			imprimir(pilas, M, N);
 		}
 	}
 }
+void Contenedor::moverContenedores(Pilas *pilas, int M, int N, string dato, int indiceM, int indiceN){
+	
+	int tope = 0;
+	tope = ( pilas[indiceM].getTope() - 1);
+	int *arrayAux2 = new int[2];
+	string *arrayAux = new string[N];
+	arrayAux = pilas[indiceM].getArray();
+	//cout << "tope: "<< tope <<endl;
+	//cout << "indiceN: "<< indiceN <<endl;
+	//cout << "indiceM: "<< indiceM <<endl;
+	//cout << "arrayAux[tope]: "<< arrayAux[tope] <<endl;
+	//cout << "arrayAux2[0]:  "<< arrayAux2[0] <<endl;
+	while( indiceN != tope ){
+		arrayAux2 = buscarPila_conEspacio(pilas, M);
+		if(arrayAux2[1] == 1){
+			pilas[arrayAux2[0]].push(arrayAux[tope]);
+			pilas[indiceM].pop();
+			tope = ( pilas[indiceM].getTope() - 1);
+			imprimir(pilas, M, N);
+		}
+		else if(arrayAux2[1] == 0){
+			break;
+		}
+	}
+	if(indiceN == tope){
+		pilas[indiceM].pop();
+	}
+}
 
+void Contenedor::buscarContenedor(Pilas *pilas, int M, int N, string dato){
+	
+	string *arrayAux = new string[N];
+	
+	for(int i=0; i<M; i++){
+		arrayAux =  pilas[i].getArray();	
+		//cout << "Tope: "<< pilas[i].getTope(); <<endl;
+	
+		for(int k=0; k<N; k++){
+			if(arrayAux[k] == dato){
+				cout << "Se ha encontrado el contenedor en la pila: "<< i+1 <<endl;
+				cout << "En la posicion: "<< k+1 <<endl;
+				cout << "Se procederá a eliminarlo."<<endl;
+				moverContenedores(pilas, M, N, dato, i, k);
+			}
+		}
+	}
+}
 
-void Contenedor::buscarPila_conEspacio(Pilas *pilas, int M, string dato){
+int* Contenedor::buscarPila_conEspacio(Pilas *pilas, int M){
 	bool band = NULL;
 	int aux=0;
 	int noMatch = 0;
+	int *arrayAux = new int[2];
 	
 	for(int i=0; i<M; i++){
 		band = pilas[i].pilaLlena();
 		if(band == true){
-			cout << "No hay espacio en la pila " << i <<endl;
+			cout << "No hay espacio en la pila " << i+1 <<endl;
 			noMatch = noMatch + 1;
 		}
 		else if(band == false){
-			cout << "Se encontro espacio en la pila " << i <<endl;
+			cout << "Se encontro espacio en la pila " << i+1 <<endl;
 			aux = i;
 			cout << "aux: " << aux <<endl;
-			pilas[aux].push(dato);
+			arrayAux[0] = aux;
+			arrayAux[1] = 1;
 			i=M;
 		}
 	}
 	
 	if(noMatch == M){
 		cout << "No se ha encontrado espacio."<<endl;
+		arrayAux[0] = 0;
+		arrayAux[1] = 0;
 	}
+	
+	return arrayAux;
 }
 
 void Contenedor::imprimir(Pilas *pilas, int M, int N){
-	int tope = 0;
-	string* pAux;
+	//string* arrayAux;
+	//string arrayAux2[M*N];
+	string *arrayAux = new string[N];
+	
 	for(int i=0; i<M; i++){
-		tope = pilas[i].getTope();
-		pAux =  pilas[i].getArray();
-		cout << "Tope: "<< tope <<endl;
-		cout << "Tope: "<< tope <<endl;
+		arrayAux =  pilas[i].getArray();	
+		//cout << "Tope: "<< pilas[i].getTope(); <<endl;
+	
 		for(int k=0; k<N; k++){
-			cout << pAux[k] <<endl;
+			//arrayAux2[k] = arrayAux[k];
+			cout << arrayAux[k] <<endl;
 		}
 	}
+	
+	//for(int i=0; i<(N*M); i++){
+		//cout << arrayAux2[i] <<endl;
+	//}
 	
 	//for(int i= ((this->tope)-1); i>=0; i--){
 		//if( ((this->tope)-1) != -1){

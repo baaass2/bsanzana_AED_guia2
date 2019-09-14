@@ -62,7 +62,7 @@ void Pilas::pop(){
 		cout << "Desbordamiento, pila vacía" <<endl;
 	}
 	else if(band ==false){
-		this->array[this->tope] = "";
+		this->array[this->tope-1] = "";
 		this->tope = this-> tope -1;
 	}
 	
