@@ -27,6 +27,7 @@ Contenedor::Contenedor(){
 	}
 	
 	while(stop != 1){
+		cout << "" <<endl;
 		cout << "-----------------------" <<endl;
 		cout << "Agregar/push [1]" <<endl;
 		cout << "Remover/pop [2]" <<endl;
@@ -63,11 +64,6 @@ void Contenedor::moverContenedores(Pilas *pilas, int M, int N, string dato, int 
 	int *arrayAux2 = new int[2];
 	string *arrayAux = new string[N];
 	arrayAux = pilas[indiceM].getArray();
-	//cout << "tope: "<< tope <<endl;
-	//cout << "indiceN: "<< indiceN <<endl;
-	//cout << "indiceM: "<< indiceM <<endl;
-	//cout << "arrayAux[tope]: "<< arrayAux[tope] <<endl;
-	//cout << "arrayAux2[0]:  "<< arrayAux2[0] <<endl;
 	while( indiceN != tope ){
 		arrayAux2 = buscarPila_conEspacio(pilas, M);
 		if(arrayAux2[1] == 1){
@@ -90,9 +86,7 @@ void Contenedor::buscarContenedor(Pilas *pilas, int M, int N, string dato){
 	string *arrayAux = new string[N];
 	
 	for(int i=0; i<M; i++){
-		arrayAux =  pilas[i].getArray();	
-		//cout << "Tope: "<< pilas[i].getTope(); <<endl;
-	
+		arrayAux =  pilas[i].getArray();		
 		for(int k=0; k<N; k++){
 			if(arrayAux[k] == dato){
 				cout << "Se ha encontrado el contenedor en la pila: "<< i+1 <<endl;
@@ -136,29 +130,24 @@ int* Contenedor::buscarPila_conEspacio(Pilas *pilas, int M){
 }
 
 void Contenedor::imprimir(Pilas *pilas, int M, int N){
-	//string* arrayAux;
-	//string arrayAux2[M*N];
+
+	string *arrayAux2= new string[M*N];
 	string *arrayAux = new string[N];
+	
+	int indice=0;
 	
 	for(int i=0; i<M; i++){
 		arrayAux =  pilas[i].getArray();	
-		//cout << "Tope: "<< pilas[i].getTope(); <<endl;
-	
 		for(int k=0; k<N; k++){
-			//arrayAux2[k] = arrayAux[k];
-			cout << arrayAux[k] <<endl;
+			arrayAux2[indice] = arrayAux[k];
+			indice = indice +1;
 		}
 	}
 	
-	//for(int i=0; i<(N*M); i++){
-		//cout << arrayAux2[i] <<endl;
-	//}
-	
-	//for(int i= ((this->tope)-1); i>=0; i--){
-		//if( ((this->tope)-1) != -1){
-			//cout << this->array[i]<< endl;
-		//}
-	//}
+	for(int i=0; i<(M*N); i++){
+		cout << arrayAux2[i] << " ";
+
+	}
 }
 
 
